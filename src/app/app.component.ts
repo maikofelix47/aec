@@ -91,7 +91,7 @@ export class AppComponent implements OnInit{
 
    public calculateMm(){
     console.log('calculatemm..');
-    this.mw = Number(((this.ww/100) * ((this.miwb/100) - (this.mfwb)/100)/(1 - (this.mfwb)/100)).toFixed(2));
+    this.mw = Number((this.ww * ((this.miwb/100) - (this.mfwb)/100)/(1 - (this.mfwb)/100)).toFixed(2));
    }
    public onMiwbChange($event){
     console.log('onchange miwb', $event);
