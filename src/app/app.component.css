@@ -1,6 +1,38 @@
+#content{
+  margin-top: 80px;
+  background-color: #FFF;
+  border-style: solid;
+  border: 1px double lightgray;
+  padding-top: 30px;
+}
 body{
+  padding-top: 70px;
+  background-color: #f7f7fa !important;
   font-family: 'Roboto', sans-serif !important;
 }
-#content{
-  margin-top: 100px;
+#user-input-section{
+  border-style: solid;
+  border: 1px double lightgray;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+#data-section{
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+
+}
+.aec-panel-heading .panel-heading{
+  background-color: #30908e !important;
+  color: #FFF;
 }

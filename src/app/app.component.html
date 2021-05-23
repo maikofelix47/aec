@@ -1,406 +1,562 @@
-<nav class="navbar fixed-top navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-      <img src="./assets/agric-eng.jpg" alt="" width="40" height="40" class="d-inline-block align-text-top">
-    </a>
-  </div>
-</nav>
 <div class="container">
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img alt="Brand" src="/assets/agric-eng.jpg" width="40" height="40">
+        </a>
+      </div>
+    </div>
+  </nav>
   
   <div class="row" id="content">
-    <div class="col-10">
-      <form name="malawi-form" >
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Airflow requirements</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>Temparature Diff</b></td>
-            <td><b>ΔT</b></td>
-            <td></td>
-            <td><b>{{ tempDiff }}</b></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Dimensionless parameter (0.14-0.25)</td>
-            <td>β</td>
-            <td>{{ dP }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Boiling Temp of water in degrees</td>
-            <td>Tb</td>
-            <td>{{ tb }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Freezing Temp water in degrees</td>
-            <td>Tc</td>
-            <td>{{ tc }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Intensity of radiation W/m<sup>2</sup></td>
-            <td>It</td>
-            <td>{{ it }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Solar constant</td>
-            <td>Io</td>
-            <td>{{ lo }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Moisture to be removed from food</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>Mass of moisture to be removed in kg</b></td>
-            <td><b>Mw</b></td>
-            <td></td>
-            <td><b>{{ mw }}</b></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Initial mass of material to dry in Kg</td>
-            <td>Ww</td>
-            <td><input class="form-control" type="text" [(ngModel)] = "ww" name="ww" (ngModelChange)="onWwChange($event)"/></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Initial moisture wet basis</td>
-            <td>Miwb</td>
-            <td><input class="form-control" type="text" [(ngModel)] = "miwb" name="miwb" (ngModelChange)="onMiwbChange($event)"/></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Final moisture wet basis</td>
-            <td>Mfwb</td>
-            <td><input class="form-control" type="text" [(ngModel)] = "mfwb" name="mfwb" (ngModelChange)="onMfwbChange($event)"/></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><b>3</b></td>
-            <td><b>Volume of air required to remove the moisture in m<sup>3</sup></b></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Volume of air required</td>
-            <td>VA</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Temp of air leaving dry bed in degrees</td>
-            <td></td>
-            <td>{{taLD}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Temp air leaving dry bed in Kelvins</td>
-            <td>Tf</td>
-            <td>{{taLK}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Ambient Temp in degrees</td>
-            <td></td>
-            <td>{{atD}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Ambient Temp in Kelvins</td>
-            <td>Ta</td>
-            <td>{{atK}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Temp air leaving air heater in degrees = Ta + ΔT</td>
-            <td></td>
-            <td>{{ taLHD }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Temp air leaving air heater in Kelvins</td>
-            <td>To</td>
-            <td>{{ to }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Partial pressure of dry air in atmosphere</td>
-            <td>Pa</td>
-            <td>{{ pa }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Specific heat capacity of air at constant pressure</td>
-            <td>Cpa</td>
-            <td>{{ cpa }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><b>3.10</b></td>
-            <td><b>Enthalpy of vaporization</b></td>
-            <td><b>Lt</b></td>
-            <td><b>2.35E+06</b></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Specifc gass constant</td>
-            <td>Ra</td>
-            <td>{{ ra }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Gass constant of water vapor</td>
-            <td>Rg</td>
-            <td>{{ rg }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Boiling point of water in Kelvins</td>
-            <td>Tb2</td>
-            <td>{{ tb2 }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Critical pressure of water</td>
-            <td>Pc</td>
-            <td>{{ pc }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Temparature of the product Tpt =0.25(3To+Ta)</td>
-            <td></td>
-            <td>{{ tp }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Temp of product in Kelvins</td>
-            <td>Tpt</td>
-            <td>{{ tpt }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Critical Temp of water in Kelvins</td>
-            <td>Tc</td>
-            <td>{{ vtc }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><b>4</b></td>
-            <td><b>Volume flow rate (Va/t)</b></td>
-            <td><b>V</b></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Mass flow rate V*1.2</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Volume of air required to remove the moisture in m3</td>
-            <td>VA</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Total drying time (24 hours)</td>
-            <td>t</td>
-            <td>{{ t }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Density of air</td>
-            <td>p</td>
-            <td>{{ p }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Area for collecting solar energy</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>Collector area</b></td>
-            <td></td>
-            <td></td>
-            <td><b>{{ca}}</b></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Efficiency</td>
-            <td>n</td>
-            <td><input class="form-control" type="text" [(ngModel)] = "n" name="n" (ngModelChange)="onNChange($event)"/></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Mass of moisture to be removed</td>
-            <td>Mw</td>
-            <td>{{ smw }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Latent heat of vaporization</td>
-            <td>Lt</td>
-            <td>{{ slt }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>It intensity of radiation on tilted surface</td>
-            <td>It</td>
-            <td>{{sit}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Total time</td>
-            <td>t</td>
-            <td>{{st}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Chimneys</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>Number of chimneys</b></td>
-            <td></td>
-            <td></td>
-            <td><b>{{nc}}</b></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Average velocity at exit of chimney</td>
-            <td>Vc</td>
-            <td><input class="form-control" type="text" [(ngModel)] = "vc" name="vc" (ngModelChange)="onVcChange($event)"/></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Volume flow rate</td>
-            <td>V</td>
-            <td>{{ cv }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Width of chimney</td>
-            <td>w</td>
-            <td>{{ w }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Depth of chimney</td>
-            <td>s</td>
-            <td>{{ s }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Area of drying bed</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>Surface area of drying beds in m<sup>2</sup></b></td>
-            <td><b>Sa</b></td>
-            <td><b>{{ sa }}</b></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Loading density</td>
-            <td></td>
-            <td>20</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Recommended drying thickness 0.02 m</td>
-            <td></td>
-            <td>0.02</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Bulk density of cassava</td>
-            <td></td>
-            <td> {{bd}} </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Mass of cassava to dry</td>
-            <td>Ww</td>
-            <td>{{ dww }}</td>
-            <td></td>
-          </tr>
+    <div class="col-md-12">
+      <div class="panel aec-panel-heading">
+        <div class="panel-heading">Input</div>
+        <div class="panel-body">
+        <div class="row" id="user-input-section">
+          <div class="col-md-4">
+            <label for="exampleFormControlInput1" class="form-label">Initial mass of material to dry in Kg(ww)</label>
+            <input class="form-control" type="number" [(ngModel)] = "ww" name="ww" (ngModelChange)="onWwChange($event)"/>
+          </div>
+          <div class="col-md-4">
+            <label for="exampleFormControlInput1" class="form-label">Initial moisture wet basis (Miwb) %</label>
+            <input class="form-control" type="number" [(ngModel)] = "miwb" name="miwb" (ngModelChange)="onMiwbChange($event)"/>
+          </div>
+          <div class="col-md-4">
+            <label for="exampleFormControlInput1" class="form-label">Final moisture wet basis (Mfwb) %</label>
+            <input class="form-control" type="number" [(ngModel)] = "mfwb" name="mfwb" (ngModelChange)="onMfwbChange($event)"/>
+          </div>
+          <div class="col-md-4">
+            <label for="exampleFormControlInput1" class="form-label">Average velocity at exit of chimney (Vc)</label>
+            <input class="form-control" type="number" [(ngModel)] = "vc" name="vc" (ngModelChange)="onVcChange($event)"/>
+          </div>
+          <div class="col-md-4">
+            <label for="exampleFormControlInput1" class="form-label">Ambient Temp in degrees</label>
+            <input class="form-control" type="number" [(ngModel)] = "atD" name="atD" (ngModelChange)="onAtDChange($event)"/>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="panel aec-panel-heading">
+        <div class="panel-heading">Output</div>
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Temperature Diff (ΔT)</b></td>
+                <td><b>{{ tempDiff }}</b></td>
+              </tr>
+              <tr>
+                <td><b>Collector area</b></td>
+                <td><b>{{ca}}</b></td>
+              </tr>
+              <tr>
+                <td><b>Number of chimneys</b></td>
+                <td><b>{{nc}}</b></td>
+              </tr>
+              <tr>
+                <td><b>Surface area of drying beds in m<sup>2</sup></b></td>
+                <td><b>{{ sa }}</b></td>
+              </tr>
+            </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+       <div class="row" id="data-section">
+          <div class="col-md-12">
+            <div class="row">
+            <div class="col-md-12">
+              <div class="panel aec-panel-heading">
+                <div class="panel-heading">1. Airflow requirements</div>
+                <div class="panel-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td><b>Temperature Diff</b></td>
+                        <td><b>ΔT</b></td>
+                        <td></td>
+                        <td><b>{{ tempDiff }}</b></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Dimensionless parameter (0.14-0.25)</td>
+                        <td>β</td>
+                        <td>{{ dP }}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Boiling Temp of water in degrees</td>
+                        <td>Tb</td>
+                        <td>{{ tb }}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Freezing Temp water in degrees</td>
+                        <td>Tc</td>
+                        <td>{{ tc }}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Solar constant</td>
+                        <td>Io</td>
+                        <td>{{ lo }}</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                    </table>
+                </div>
+              </div>
+      
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel aec-panel-heading">
+                    <div class="panel-heading">2. Moisture to be removed from food</div>
+                    <div class="panel-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td><b>Mass of moisture to be removed in kg</b></td>
+                            <td><b>Mw</b></td>
+                            <td></td>
+                            <td><b>{{ mw }}</b></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                 
+    
+                </div>
+                <div class="col-md-12">
+                  <div class="panel aec-panel-heading">
+                    <div class="panel-heading">3. Volume of air required to remove the moisture in m<sup>3</sup></div>
+                    <div class="panel-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td>Volume of air required</td>
+                            <td>VA</td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Temp of air leaving dry bed in degrees</td>
+                            <td></td>
+                            <td>{{taLD}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Temp air leaving dry bed in Kelvins</td>
+                            <td>Tf</td>
+                            <td>{{taLK}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Ambient Temp in degrees</td>
+                            <td></td>
+                            <td>{{atD}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Ambient Temp in Kelvins</td>
+                            <td>Ta</td>
+                            <td>{{atK}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Temp air leaving air heater in degrees = Ta + ΔT</td>
+                            <td></td>
+                            <td>{{ taLD }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Temp air leaving air heater in Kelvins</td>
+                            <td>To</td>
+                            <td>{{ to }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Partial pressure of dry air in atmosphere</td>
+                            <td>Pa</td>
+                            <td>{{ pa }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Specific heat capacity of air at constant pressure</td>
+                            <td>Cpa</td>
+                            <td>{{ cpa }}</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+    
+                </div>
+              <div class="col-md-12">
+                <div class="panel aec-panel-heading">
+                  <div class="panel-heading">3.10 Enthalpy of vaporization</div>
+                  <div class="panel-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          <td><b></b></td>
+                          <td><b>Enthalpy of vaporization</b></td>
+                          <td><b>Lt</b></td>
+                          <td><b>{{lt}}</b></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Specifc gass constant</td>
+                          <td>Ra</td>
+                          <td>{{ ra }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Gass constant of water vapor</td>
+                          <td>Rg</td>
+                          <td>{{ rg }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Boiling point of water in Kelvins</td>
+                          <td>Tb2</td>
+                          <td>{{ tb2 }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Critical pressure of water</td>
+                          <td>Pc</td>
+                          <td>{{ pc }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Temparature of the product Tpt =0.25(3To+Ta)</td>
+                          <td></td>
+                          <td>{{ tp }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Temp of product in Kelvins</td>
+                          <td>Tpt</td>
+                          <td>{{ tpt }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Critical Temp of water in Kelvins</td>
+                          <td>Tc</td>
+                          <td>{{ vtc }}</td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                      </table>
+                  </div>
+                </div>
+              
+               </div>
+               <div class="col-md-12">
+                <div class="panel aec-panel-heading">
+                  <div class="panel-heading">4. Volume flow rate (Va/t)</div>
+                  <div class="panel-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td>Mass flow rate V*1.2</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Volume of air required to remove the moisture in m3</td>
+                          <td>VA</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Total drying time (24 hours)</td>
+                          <td>t</td>
+                          <td>{{ t }}</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Density of air</td>
+                          <td>p</td>
+                          <td>{{ p }}</td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+               </div>
+  
+               </div>
+            </div>
+           
+            
+         </div>
+
+          </div>
           
-        </tbody>
-      </table>
+          <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel aec-panel-heading">
+                    <div class="panel-heading">5. Area for collecting solar energy</div>
+                    <div class="panel-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td><b>Collector area</b></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>{{ca}}</b></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Mass of moisture to be removed</td>
+                            <td>Mw</td>
+                            <td>{{ smw }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Latent heat of vaporization</td>
+                            <td>Lt</td>
+                            <td>{{ slt }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>It intensity of radiation on tilted surface</td>
+                            <td>It</td>
+                            <td>{{sit}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Total time</td>
+                            <td>t</td>
+                            <td>{{st}}</td>
+                            <td></td>
+                          </tr>
+                       </tbody>
+                       </table>
+                    </div>
+                  </div>
+                    
+                 </div>
+                 <div class="col-md-12">
+                  <div class="panel aec-panel-heading">
+                    <div class="panel-heading">6. Chimneys</div>
+                    <div class="panel-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td><b>Number of chimneys</b></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>{{nc}}</b></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Average velocity at exit of chimney</td>
+                            <td>Vc</td>
+                            <td>{{vc}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Volume flow rate</td>
+                            <td>V</td>
+                            <td>{{ cv }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Width of chimney</td>
+                            <td>w</td>
+                            <td>{{ w }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Depth of chimney</td>
+                            <td>s</td>
+                            <td>{{ s }}</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                  </div>
+                 
+
+                 </div>
+                 <div class="col-md-12">
+                  <div class="panel aec-panel-heading">
+                    <div class="panel-heading">7. Area of drying bed</div>
+                    <div class="panel-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td><b>Surface area of drying beds in m<sup>2</sup></b></td>
+                            <td><b>Sa</b></td>
+                            <td><b>{{ sa }}</b></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Loading density</td>
+                            <td></td>
+                            <td>{{ ld }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Recommended drying thickness 0.02 m</td>
+                            <td></td>
+                            <td>0.02</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Bulk density of cassava</td>
+                            <td></td>
+                            <td> {{bd}} </td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>Mass of cassava to dry</td>
+                            <td>Ww</td>
+                            <td>{{ dww }}</td>
+                            <td></td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                    
+                 </div>
+              </div>
+          </div>
+       </div>
+    </div>
+    <div class="col-12">
+      <form name="malawi-form" >
+      
       </form>
     </div>
   </div>
