@@ -43,7 +43,7 @@ export class AppComponent implements OnInit{
    public tp: number = Number((0.25 * ((3 * this.taLD) + this.atD)).toFixed(2));
    public tpt: number = this.tp + 273;
    public vtc: number = 650;
-   public lt: number = Number(this.rg * this.vtc*this.tb2)*(Math.log(this.pc/Math.pow(10,5)))*(Math.pow((this.vtc-this.tpt),0.38))/(Math.pow((this.vtc-this.tb2),1.38));
+   public lt: number = Math.round(Number(this.rg * this.vtc*this.tb2)*(Math.log(this.pc/Math.pow(10,5)))*(Math.pow((this.vtc-this.tpt),0.38))/(Math.pow((this.vtc-this.tb2),1.38)));
 
    //section 4
    public v: number = 0.993831219245376;
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit{
    public slt: number = 2.35E+06;
    public sit: number = 555;
    public st: number = 86400;
-   public ca: number = Number(this.smw * this.slt)/(this.sit * this.st * this.n);
+   public ca: number = Math.round((Number(this.smw * this.slt)/(this.sit * this.st * this.n)));
 
    //section 6
    public nc: number = 0;
@@ -80,57 +80,44 @@ export class AppComponent implements OnInit{
    ) {}
 
    ngOnInit() {
-   console.log('module loaded..');
-
    }
 
    public onWwChange($event){
-    console.log('onchange ww', $event);
     this.calculateMm();
     this.calculateMasOfCassavaToDry();
     this.calculateLoadingDensity();
    }
 
    public calculateMm(){
-    console.log('calculatemm..');
     this.mw = Number((this.ww * ((this.miwb/100) - (this.mfwb)/100)/(1 - (this.mfwb)/100)).toFixed(2));
    }
    public onMiwbChange($event){
-    console.log('onchange miwb', $event);
     this.calculateMm();
    }
    public onMfwbChange($event){
-    console.log('onchange mfwb', $event);
     this.calculateMm();
    }
    public calculateMasOfCassavaToDry(){
       this.dww = Number(this.ww);
    }
    public onNChange($event){
-    console.log('onchange n', $event);
     this.calculateSolarEnergyCollectionArea();
    }
    public calculateSolarEnergyCollectionArea(){
-     console.log('calculateSolarEnergyCollectionArea...');
-     this.ca = (this.smw * this.slt)/(this.sit * this.st * this.n);
-     console.log('ca..', this.ca);
+     this.ca = Math.round((this.smw * this.slt)/(this.sit * this.st * this.n));
    }
    public calculateLoadingDensity(){
       this.ld = (this.dww/this.sa);
-      console.log('calculateLoadingDensity', this.ld);
    }
    public onVcChange($event){
-    console.log('onVcchange ...', $event);
     if($event !== ''){
       this.calculateNumberOfChimneys();
     }
    }
    public calculateNumberOfChimneys(){
-      this.nc = Math.round(this.cv/(this.w * this.s * this.vc))
-      console.log('nc', this.nc);;
+      this.nc = Math.round(this.cv/(this.w * this.s * this.vc));
    }
    public onAtDChange($event){
-     console.log('onAtDChange', $event);
      this.calculateAmbientTempInKelvin();
      this.calculateTempOfAirLeavingHeaterInDegrees();
      this.calculateTemparatureOfProduct();
@@ -140,28 +127,21 @@ export class AppComponent implements OnInit{
       this.atK = Number(this.atD) + 273;
    }
    public calculateTempOfAirLeavingHeaterInDegrees(){
-     console.log('Ambient Temperatue :', this.atD);
-     console.log('TempDifference :', this.tempDiff);
      this.taLD = Number(Number(this.atD) + Number(this.tempDiff));
-     console.log('TempOfAirLeavingHeaterInDegrees:', this.taLD);
      this.calculateTempOfAirLeavingHeaterInKelvin();
    }
    public calculateTempOfAirLeavingHeaterInKelvin(){
     this.to = this.taLD + 273;
-    console.log('calculateTempOfAirLeavingHeaterInKelvin: ', this.to);
    }
    public calculateTemparatureOfProduct(){
     this.tp = Number((0.25 * ((3 * this.taLD) + Number(this.atD))).toFixed(2));
-    console.log('calculateTemparatureOfProduct: ', this.tp);
     this.calculateTemparatureOfProductInKelvin();
    }
    public calculateTemparatureOfProductInKelvin(){
     this.tpt = Number(this.tp) + 273;
-    console.log('calculateTemparatureOfProductInKelvin: ', this.tpt);
    }
    public calculateEnthalpyOfVaporization(){
-    this.lt = Number(this.rg * this.vtc*this.tb2)*(Math.log(this.pc/Math.pow(10,5)))*(Math.pow((this.vtc-this.tpt),0.38))/(Math.pow((this.vtc-this.tb2),1.38));
-    console.log('calculateEnthalpyOfVaporization: ', this.lt);
+    this.lt = Math.round(Number(this.rg * this.vtc*this.tb2)*(Math.log(this.pc/Math.pow(10,5)))*(Math.pow((this.vtc-this.tpt),0.38))/(Math.pow((this.vtc-this.tb2),1.38)));
    }
 
 

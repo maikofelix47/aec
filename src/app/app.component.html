@@ -3,7 +3,7 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="https://www.agriceng.cloud/">
           <img alt="AEC" src="assets/agric-eng.jpg" width="40" height="40">
         </a>
       </div>
@@ -11,6 +11,10 @@
   </nav>
   
   <div class="row" id="content">
+    <div class="col-md-12">
+        <h3 class="page-title">Agriceng Tunnel Dryer App</h3>
+        <hr class="intro-divider aec-divider" />
+    </div>
     <div class="col-md-12">
       <div class="panel aec-panel-heading">
         <div class="panel-heading">Input</div>
@@ -29,7 +33,7 @@
             <input class="form-control" type="number" [(ngModel)] = "mfwb" name="mfwb" (ngModelChange)="onMfwbChange($event)"/>
           </div>
           <div class="col-md-4">
-            <label for="exampleFormControlInput1" class="form-label">Average velocity at exit of chimney (Vc)</label>
+            <label for="exampleFormControlInput1" class="form-label">Wind velocity in m/s</label>
             <input class="form-control" type="number" [(ngModel)] = "vc" name="vc" (ngModelChange)="onVcChange($event)"/>
           </div>
           <div class="col-md-4">
@@ -52,10 +56,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><b>Temperature Diff (ΔT)</b></td>
-                <td><b>{{ tempDiff }}</b></td>
-              </tr>
               <tr>
                 <td><b>Collector area</b></td>
                 <td><b>{{ca}}</b></td>
@@ -460,7 +460,7 @@
                           </tr>
                           <tr>
                             <td></td>
-                            <td>Average velocity at exit of chimney</td>
+                            <td>Wind velocity in m/s</td>
                             <td>Vc</td>
                             <td>{{vc}}</td>
                             <td></td>

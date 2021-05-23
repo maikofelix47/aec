@@ -36,3 +36,10 @@ body{
   background-color: #30908e !important;
   color: #FFF;
 }
+.page-title{
+  color:  #30908e;
+  text-align: center;
+}
+.aec-divider{
+  width: 40%;
+}
