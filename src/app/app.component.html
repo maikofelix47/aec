@@ -57,8 +57,24 @@
             </thead>
             <tbody>
               <tr>
+                <td><b>Mass of moisture to be removed in kg</b></td>
+                <td><b>{{ mw | number : '1.2-2'}}</b></td>
+              </tr>
+              <tr>
+                <td><b>Volume of air required to remove the moisture in m<sup>3</sup></b></td>
+                <td><b>{{va | number : '1.2-2'}}</b></td>
+              </tr>
+              <tr>
+                <td><b>Volume flow rate (Va/t)</b></td>
+                <td><b>{{v | number : '1.2-2'}}</b></td>
+              </tr>
+              <tr>
+                <td><b>Mass flow rate V*1.2</b></td>
+                <td><b>{{mfr | number : '1.2-2'}}</b></td>
+              </tr>
+              <tr>
                 <td><b>Collector area</b></td>
-                <td><b>{{ca}}</b></td>
+                <td><b>{{ca | number : '1.2-2'}}</b></td>
               </tr>
               <tr>
                 <td><b>Number of chimneys</b></td>
@@ -66,7 +82,11 @@
               </tr>
               <tr>
                 <td><b>Surface area of drying beds in m<sup>2</sup></b></td>
-                <td><b>{{ sa }}</b></td>
+                <td><b>{{ sa | number : '1.2-2' }}</b></td>
+              </tr>
+              <tr>
+                <td><b>Loading Density</b></td>
+                <td><b>{{ ld }}</b></td>
               </tr>
             </tbody>
             </table>
@@ -96,7 +116,7 @@
                         <td><b>Temperature Diff</b></td>
                         <td><b>ΔT</b></td>
                         <td></td>
-                        <td><b>{{ tempDiff }}</b></td>
+                        <td><b>{{ tempDiff | number : '1.1-1' }}</b></td>
                       </tr>
                       <tr>
                         <td></td>
@@ -153,7 +173,7 @@
                             <td><b>Mass of moisture to be removed in kg</b></td>
                             <td><b>Mw</b></td>
                             <td></td>
-                            <td><b>{{ mw }}</b></td>
+                            <td><b>{{ mw | number : '1.2-2'}}</b></td>
                           </tr>
                         </tbody>
                       </table>
@@ -178,23 +198,23 @@
                         <tbody>
                           <tr>
                             <td></td>
-                            <td>Volume of air required</td>
-                            <td>VA</td>
-                            <td></td>
+                            <td><b>Volume of air required to remove the moisture in m<sup>3</sup></b></td>
+                            <td><b>VA</b></td>
+                            <td><b>{{va | number : '1.2-2'}}</b></td>
                             <td></td>
                           </tr>
                           <tr>
                             <td></td>
                             <td>Temp of air leaving dry bed in degrees</td>
                             <td></td>
-                            <td>{{taLD}}</td>
+                            <td>{{taLD | number : '1.2-2'}}</td>
                             <td></td>
                           </tr>
                           <tr>
                             <td></td>
                             <td>Temp air leaving dry bed in Kelvins</td>
                             <td>Tf</td>
-                            <td>{{taLK}}</td>
+                            <td>{{taLK | number : '1.2-2'}}</td>
                             <td></td>
                           </tr>
                           <tr>
@@ -215,14 +235,14 @@
                             <td></td>
                             <td>Temp air leaving air heater in degrees = Ta + ΔT</td>
                             <td></td>
-                            <td>{{ taLD }}</td>
+                            <td>{{ taLD | number : '1.2-2' }}</td>
                             <td></td>
                           </tr>
                           <tr>
                             <td></td>
                             <td>Temp air leaving air heater in Kelvins</td>
                             <td>To</td>
-                            <td>{{ to }}</td>
+                            <td>{{ to | number : '1.2-2' }}</td>
                             <td></td>
                           </tr>
                           <tr>
@@ -265,7 +285,7 @@
                           <td><b></b></td>
                           <td><b>Enthalpy of vaporization</b></td>
                           <td><b>Lt</b></td>
-                          <td><b>{{lt}}</b></td>
+                          <td><b>{{lt | number : '1.2-2'}}</b></td>
                           <td></td>
                         </tr>
                         <tr>
@@ -300,14 +320,14 @@
                           <td></td>
                           <td>Temparature of the product Tpt =0.25(3To+Ta)</td>
                           <td></td>
-                          <td>{{ tp }}</td>
+                          <td>{{ tp | number : '1.2-2'}}</td>
                           <td></td>
                         </tr>
                         <tr>
                           <td></td>
                           <td>Temp of product in Kelvins</td>
                           <td>Tpt</td>
-                          <td>{{ tpt }}</td>
+                          <td>{{ tpt | number : '1.2-2' }}</td>
                           <td></td>
                         </tr>
                         <tr>
@@ -325,7 +345,7 @@
                </div>
                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                 <div class="panel aec-panel-heading">
-                  <div class="panel-heading">4. Volume flow rate (Va/t)</div>
+                  <div class="panel-heading">4. Volume flow rate</div>
                   <div class="panel-body">
                     <table class="table">
                       <thead>
@@ -339,16 +359,23 @@
                       <tbody>
                         <tr>
                           <td></td>
-                          <td>Mass flow rate V*1.2</td>
+                          <td><b>Volume flow rate (Va/t)</b></td>
+                          <td><b>V</b></td>
+                          <td><b>{{v | number : '1.2-2'}}</b></td>
                           <td></td>
+                        </tr>
+                        <tr>
                           <td></td>
+                          <td><b>Mass flow rate V*1.2</b></td>
+                          <td></td>
+                          <td><b>{{mfr | number : '1.2-2'}}</b></td>
                           <td></td>
                         </tr>
                         <tr>
                           <td></td>
                           <td>Volume of air required to remove the moisture in m3</td>
                           <td>VA</td>
-                          <td></td>
+                          <td>{{va | number : '1.2-2'}}</td>
                           <td></td>
                         </tr>
                         <tr>
@@ -469,7 +496,7 @@
                             <td></td>
                             <td>Volume flow rate</td>
                             <td>V</td>
-                            <td>{{ cv }}</td>
+                            <td>{{ cv | number : '1.2-2' }}</td>
                             <td></td>
                           </tr>
                           <tr>
@@ -516,9 +543,9 @@
                           </tr>
                           <tr>
                             <td></td>
-                            <td>Loading density</td>
+                            <td><b>Loading density</b></td>
                             <td></td>
-                            <td>{{ ld }}</td>
+                            <td><b>{{ ld }}</b></td>
                             <td></td>
                           </tr>
                           <tr>
