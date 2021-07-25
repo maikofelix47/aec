@@ -1,6 +1,12 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnChanges, OnInit } from '@angular/core';
 
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -76,6 +82,9 @@ export class AppComponent implements OnInit{
    public bd: number = 600;
    public sa: number = this.bd/(this.bd * this.dt);
    public ld: number = (this.dww/this.sa);
+
+   // public largeDrierImgUrl = "http://localhost:4200/assets/large_drier.jpg";
+   public largeDrierImgUrl = "https://agriceng.netlify.app/assets/large_drier.jpg";
   
    
 
@@ -165,7 +174,88 @@ export class AppComponent implements OnInit{
    public calculateMassFlowRate(){
      this.mfr = Number((this.v * this.p));
    }
+   public viewAsPdf(){
+    console.log('View as pdf...');
+    this.getBase64ImageFromURL(this.largeDrierImgUrl)
+    .then((result)=>{
+       const imageUrl = result;
+       const docDefinition = this.generatePdfDocDef(imageUrl);
+       this.createPdf(docDefinition);
+
+    })
+    .catch((error)=>{
+
+    })
+     
+
+   }
+   public createPdf(docDefinition){
+    pdfMake.createPdf(docDefinition).open();
+
+   }
+   public generatePdfDocDef(imageUrl){
+    const docDefinition = { 
+      content: [
+        {text: 'Agriceng Tunnel Dryer App', style: 'header'},
+        {
+          image: imageUrl,
+          width: 500
+        },
+          {
+            style: 'tableExample',
+            table: {
+              body: [
+                ['Output', 'Value'],
+                ['Mass of moisture to be removed in kg', (this.mw).toFixed(2)],
+                ['Volume of air required to remove the moisture in m3', (this.va).toFixed(2)],
+                ['Volume flow rate (Va/t)', (this.v).toFixed(2)],
+                ['Collector area', this.ca],
+                ['Number of chimneys', this.nc],
+                ['Surface area of drying beds in m2', this.sa],
+                ['Loading Density', this.ld]
+              ]
+            }
+          }
+      ],
+     
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'left',
+          margin: [0,5,0,5]
+        }
+     }
 
 
+   }
+
+   return docDefinition;
+  }
+  public getBase64ImageFromURL(url) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
 
 }
