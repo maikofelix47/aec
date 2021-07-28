@@ -84,7 +84,7 @@ export class AppComponent implements OnInit{
    public ld: number = (this.dww/this.sa);
 
    // public largeDrierImgUrl = "http://localhost:4200/assets/large_drier.jpg";
-   public largeDrierImgUrl = "https://agriceng.netlify.app/assets/large_drier.jpg";
+   public baseImgUrl = "https://agriceng.netlify.app/assets/";
    public smallSimpleDrierImg = 'small_simple.jpg';
    public smallImprovedDrierImg = 'small_improved.jpg';
    public largeSimpleDrierImg = 'large_simple.jpg';
@@ -189,7 +189,8 @@ export class AppComponent implements OnInit{
    }
    public viewAsPdf(){
     console.log('View as pdf...');
-    this.getBase64ImageFromURL(this.selectedDrierImg)
+    const imageUrl = this.baseImgUrl + this.selectedDrierImg;
+    this.getBase64ImageFromURL(imageUrl)
     .then((result)=>{
        const imageUrl = result;
        const docDefinition = this.generatePdfDocDef(imageUrl);
@@ -197,7 +198,7 @@ export class AppComponent implements OnInit{
 
     })
     .catch((error)=>{
-
+        console.error('Error displaying image', error);
     })
      
 
