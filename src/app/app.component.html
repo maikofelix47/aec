@@ -21,6 +21,32 @@
         <div class="panel-heading">Input</div>
         <div class="panel-body">
         <div class="row" id="user-input-section">
+          <!--
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+            <label for="exampleFormControlInput1" class="form-label">Source of Moisture Content</label>
+            <select name="mcSource" class="form-control" [(ngModel)]="mcSource" (ngModelChange)="onMcSourceChange($event)">
+              <option value="">Please Select Source of MC data</option>
+              <option value="manual">Manual</option>
+              <option value="system">System Database</option>
+            </select>
+          </div>
+        -->
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+            <label for="exampleFormControlInput1" class="form-label">Size of Drier</label>
+            <select name="mcSource" class="form-control" [(ngModel)]="drierSize" (ngModelChange)="ondryerSizeChange($event)">
+              <option value="">Select</option>
+              <option value="smallDrier">Small Drier</option>
+              <option value="largeDrier">Large Drier</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+            <label for="exampleFormControlInput1" class="form-label">Type of Drier</label>
+            <select name="mcSource" class="form-control" [(ngModel)]="drierType" (ngModelChange)="ondryerTypeChange($event)">
+              <option value="">Select</option>
+              <option value="simpleDrier">Simple</option>
+              <option value="improvedDrier">Improved Design</option>
+            </select>
+          </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
             <label for="exampleFormControlInput1" class="form-label">Initial mass of material to dry in Kg(ww)</label>
             <input class="form-control" type="number" [(ngModel)] = "ww" name="ww" (ngModelChange)="onWwChange($event)"/>

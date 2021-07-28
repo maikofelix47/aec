@@ -5,7 +5,7 @@ import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-
+import { ForecastService } from './services/forecast.service';
 
 @Component({
   selector: 'app-root',
@@ -85,13 +85,26 @@ export class AppComponent implements OnInit{
 
    // public largeDrierImgUrl = "http://localhost:4200/assets/large_drier.jpg";
    public largeDrierImgUrl = "https://agriceng.netlify.app/assets/large_drier.jpg";
+   public smallSimpleDrierImg = 'small_simple.jpg';
+   public smallImprovedDrierImg = 'small_improved.jpg';
+   public largeSimpleDrierImg = 'large_simple.jpg';
+   public largeImprovedDrierImg = 'large_improved.jpg';
+   public selectedDrierImg = '';
+
+   public averageTemp:number;
+   public averageWindSpeed:number;
+   public mcSource = '';
+   public drierSize = '';
+   public drierType = '';
   
    
 
    constructor(
+     private forecastService: ForecastService
    ) {}
 
    ngOnInit() {
+    this.getForecast();
    }
 
    public onWwChange($event){
@@ -176,7 +189,7 @@ export class AppComponent implements OnInit{
    }
    public viewAsPdf(){
     console.log('View as pdf...');
-    this.getBase64ImageFromURL(this.largeDrierImgUrl)
+    this.getBase64ImageFromURL(this.selectedDrierImg)
     .then((result)=>{
        const imageUrl = result;
        const docDefinition = this.generatePdfDocDef(imageUrl);
@@ -256,6 +269,90 @@ export class AppComponent implements OnInit{
 
       img.src = url;
     });
+  }
+
+  public getForecast(){
+     this.forecastService.getForeCast()
+     .subscribe((result: any)=> {
+      console.log('result', result);
+      const list = result.default.list;
+      this.getTempDataArray(list);
+
+      this.getWindDataArray(list);
+     })
+  }
+  public getTempDataArray(data){
+    const arr = [];
+    data.forEach((d: any) => {
+      arr.push(d.main);
+    });
+
+    console.log('arr',arr);
+    this.getAvgTemp(arr);
+
+  }
+  public getAvgTemp(tempArray: any){
+      let totalTemp = 0
+      tempArray.forEach((t) => {
+          totalTemp += t.temp;
+      });
+
+      console.log('totalTemp',totalTemp);
+      const avgTemp = (totalTemp / tempArray.length).toFixed(2);
+      console.log('avgTemp',avgTemp);
+      this.averageTemp = Number(avgTemp);
+  }
+  public getWindDataArray(data: any){
+    const arr = [];
+    data.forEach((d: any) => {
+      arr.push(d.wind);
+    });
+
+    console.log('arrWind',arr);
+    this.getAvgTemp(arr);
+
+  }
+  public getAvgWindSpeed(windArray: any){
+      let totalWindSpeed = 0
+      windArray.forEach((t: any) => {
+          totalWindSpeed += t.speed;
+      });
+
+      console.log('totalWindSpeed',totalWindSpeed);
+      const avgWs = (totalWindSpeed / windArray.length).toFixed(2);
+      console.log('avgWindSpeed',avgWs);
+      this.averageWindSpeed = Number(avgWs);
+  }
+  public onMcSourceChange($event: string): void{
+     console.log('onMcSource',$event);
+  }
+  public ondryerSizeChange($event): void{
+    console.log('ondryerSizeChange',$event);
+    this.setDrierImage();
+  }
+  public ondryerTypeChange($event: string): void{
+    console.log('ondryerTypeChange',$event);
+    this.setDrierImage();
+  }
+  public setDrierImage(){
+      if(this.drierSize === 'smallDrier'){
+
+        if(this.drierType === 'imoproved'){
+             this.selectedDrierImg = this.smallImprovedDrierImg;
+        }else{
+          this.selectedDrierImg = this.smallSimpleDrierImg;
+        }
+
+      }else if(this.drierSize === 'largeDrier'){
+          if(this.drierType === 'improved'){
+                this.selectedDrierImg = this.largeImprovedDrierImg;
+          }else{
+            this.selectedDrierImg = this.largeSimpleDrierImg;
+          }
+
+      }else{
+        this.selectedDrierImg = this.largeSimpleDrierImg;
+      }
   }
 
 }
