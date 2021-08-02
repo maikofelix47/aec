@@ -21,30 +21,20 @@
         <div class="panel-heading">Input</div>
         <div class="panel-body">
         <div class="row" id="user-input-section">
-          <!--
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+            <label for="exampleFormControlInput1" class="form-label">Crop </label>
+            <select name="mcSource" class="form-control" [(ngModel)]="selectedCrop" (ngModelChange)="onCropChange($event)">
+              <option value="">Select Crop</option>
+              <option *ngFor="let crop of cropOptions" [value]="crop.value">{{crop.label}}</option>
+             
+            </select>
+          </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
             <label for="exampleFormControlInput1" class="form-label">Source of Moisture Content</label>
             <select name="mcSource" class="form-control" [(ngModel)]="mcSource" (ngModelChange)="onMcSourceChange($event)">
-              <option value="">Please Select Source of MC data</option>
+              <option value="">Select</option>
               <option value="manual">Manual</option>
               <option value="system">System Database</option>
-            </select>
-          </div>
-        -->
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
-            <label for="exampleFormControlInput1" class="form-label">Size of Drier</label>
-            <select name="mcSource" class="form-control" [(ngModel)]="drierSize" (ngModelChange)="ondryerSizeChange($event)">
-              <option value="">Select</option>
-              <option value="smallDrier">Small Drier</option>
-              <option value="largeDrier">Large Drier</option>
-            </select>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
-            <label for="exampleFormControlInput1" class="form-label">Type of Drier</label>
-            <select name="mcSource" class="form-control" [(ngModel)]="drierType" (ngModelChange)="ondryerTypeChange($event)">
-              <option value="">Select</option>
-              <option value="simpleDrier">Simple</option>
-              <option value="improvedDrier">Improved Design</option>
             </select>
           </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
@@ -52,12 +42,12 @@
             <input class="form-control" type="number" [(ngModel)] = "ww" name="ww" (ngModelChange)="onWwChange($event)"/>
           </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
-            <label for="exampleFormControlInput1" class="form-label">Initial moisture wet basis (Miwb) %</label>
-            <input class="form-control" type="number" [(ngModel)] = "miwb" name="miwb" (ngModelChange)="onMiwbChange($event)"/>
+            <label for="exampleFormControlInput1" class="form-label">Initial moisture wet basis (Miwb) % {{readOnlyMode}}</label>
+            <input class="form-control" type="number" [(ngModel)] = "miwb" name="miwb" (ngModelChange)="onMiwbChange($event)" [readonly]="readOnlyMode"/>
           </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
             <label for="exampleFormControlInput1" class="form-label">Final moisture wet basis (Mfwb) %</label>
-            <input class="form-control" type="number" [(ngModel)] = "mfwb" name="mfwb" (ngModelChange)="onMfwbChange($event)"/>
+            <input class="form-control" type="number" [(ngModel)] = "mfwb" name="mfwb" (ngModelChange)="onMfwbChange($event)" [readonly]="readOnlyMode"/>
           </div>
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
             <label for="exampleFormControlInput1" class="form-label">Wind velocity in m/s</label>
@@ -66,6 +56,18 @@
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
             <label for="exampleFormControlInput1" class="form-label">Ambient Temp in degrees</label>
             <input class="form-control" type="number" [(ngModel)] = "atD" name="atD" (ngModelChange)="onAtDChange($event)"/>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+            <label for="exampleFormControlInput1" class="form-label">Size of Drier</label>
+            <input class="form-control" type="text" [(ngModel)] = "drierSize" name="drierSize" readonly/>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+            <label for="exampleFormControlInput1" class="form-label">Type of Drier</label>
+            <select name="mcSource" class="form-control" [(ngModel)]="drierType" (ngModelChange)="ondryerTypeChange($event)">
+              <option value="">Select</option>
+              <option value="simple">Simple</option>
+              <option value="improved">Improved Design</option>
+            </select>
           </div>
         </div>
         </div>

@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnChanges, OnInit } from '@angular/core';
 
 import * as pdfMake from "pdfmake/build/pdfmake";
@@ -6,6 +5,9 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 import { ForecastService } from './services/forecast.service';
+import { CropService } from './crop.service';
+import { Crop } from './crop';
+import { DrierDocService } from './drier-doc.service';
 
 @Component({
   selector: 'app-root',
@@ -83,8 +85,9 @@ export class AppComponent implements OnInit{
    public sa: number = this.bd/(this.bd * this.dt);
    public ld: number = (this.dww/this.sa);
 
-   // public largeDrierImgUrl = "http://localhost:4200/assets/large_drier.jpg";
-   public baseImgUrl = "https://agriceng.netlify.app/assets/";
+   
+   // public baseImgUrl = "https://agriceng.netlify.app/assets/";
+   public baseImgUrl = "./assets/";
    public smallSimpleDrierImg = 'small_simple.jpg';
    public smallImprovedDrierImg = 'small_improved.jpg';
    public largeSimpleDrierImg = 'large_simple.jpg';
@@ -96,18 +99,31 @@ export class AppComponent implements OnInit{
    public mcSource = '';
    public drierSize = '';
    public drierType = '';
+   public docTitle = '';
+
+   //crops
+
+   public crops: any;
+   public selectedCropData: Crop;
+   public cropOptions = [];
+   public readOnlyMode = false;
   
    
 
    constructor(
-     private forecastService: ForecastService
+     private forecastService: ForecastService,
+     private cropService: CropService,
+     private drierDocService: DrierDocService
    ) {}
 
    ngOnInit() {
     this.getForecast();
+    this.getCrops();
    }
 
    public onWwChange($event){
+    console.log('wwchange', $event);
+    this.determineDrierSize($event);
     this.calculateMm();
     //this.calculateSolarEnergyCollectionArea();
     this.calculateMasOfCassavaToDry();
@@ -190,11 +206,15 @@ export class AppComponent implements OnInit{
    public viewAsPdf(){
     console.log('View as pdf...');
     const imageUrl = this.baseImgUrl + this.selectedDrierImg;
+    console.log('Imageurl', imageUrl);
     this.getBase64ImageFromURL(imageUrl)
-    .then((result)=>{
+    .then((result: any)=>{
        const imageUrl = result;
-       const docDefinition = this.generatePdfDocDef(imageUrl);
-       this.createPdf(docDefinition);
+       this.generatePdfDocDef(imageUrl).then((docDef)=>{
+          console.log('generatePdfDocDef', docDef);
+          this.createPdf(docDef);
+
+       });
 
     })
     .catch((error)=>{
@@ -203,48 +223,48 @@ export class AppComponent implements OnInit{
      
 
    }
-   public createPdf(docDefinition){
+   public createPdf(docDefinition: any){
     pdfMake.createPdf(docDefinition).open();
 
    }
-   public generatePdfDocDef(imageUrl){
-    const docDefinition = { 
-      content: [
-        {text: 'Agriceng Tunnel Dryer App', style: 'header'},
-        {
-          image: imageUrl,
-          width: 500
-        },
-          {
-            style: 'tableExample',
-            table: {
-              body: [
-                ['Output', 'Value'],
-                ['Mass of moisture to be removed in kg', (this.mw).toFixed(2)],
-                ['Volume of air required to remove the moisture in m3', (this.va).toFixed(2)],
-                ['Volume flow rate (Va/t)', (this.v).toFixed(2)],
-                ['Collector area', this.ca],
-                ['Number of chimneys', this.nc],
-                ['Surface area of drying beds in m2', this.sa],
-                ['Loading Density', this.ld]
-              ]
-            }
-          }
-      ],
-     
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'left',
-          margin: [0,5,0,5]
+   public generatePdfDocDef(imageUrl: string){
+    return new Promise((resolve, reject) => {
+     let docDefinition: any;
+     if(this.drierSize === 'Small Drier'){
+
+      if(this.drierType === 'improved'){
+           docDefinition = this.drierDocService.generateLargeSimpleDrierDoc(this.docTitle,this.ca,this.nc,imageUrl,[]);
+      }else{
+           docDefinition = this.drierDocService.generateLargeSimpleDrierDoc(this.docTitle,this.ca,this.nc,imageUrl,[]);
+      }
+      resolve(docDefinition);
+
+    }else if(this.drierSize === 'Large Drier'){
+        if(this.drierType === 'improved'){
+          this.getBase64ImageFromURL(imageUrl)
+          .then((imageResultUrl: string) => {
+            docDefinition = this.drierDocService.generateLargeImprovedDrierDoc(this.docTitle,this.ca,this.nc,imageResultUrl);
+            resolve(docDefinition);
+
+          });
+         
+        }else{
+          const drierImgUrl= this.baseImgUrl + 'large_improved_example.png';
+          const largeDrierVar = this.baseImgUrl + 'large_simple_variations.png';
+          console.log('drierImgurl', drierImgUrl);
+          console.log('largeDrierVar', largeDrierVar);
+          Promise.all([this.getBase64ImageFromURL(drierImgUrl),this.getBase64ImageFromURL(largeDrierVar)]).then((images) => {
+            console.log('images', images);
+            const largeDrierImgs = images;
+            docDefinition = this.drierDocService.generateLargeSimpleDrierDoc(this.docTitle,this.ca,this.nc,imageUrl,largeDrierImgs);
+            resolve(docDefinition);
+          });
         }
-     }
+    }
 
+  });
+     
 
-   }
-
-   return docDefinition;
   }
   public getBase64ImageFromURL(url) {
     return new Promise((resolve, reject) => {
@@ -294,14 +314,15 @@ export class AppComponent implements OnInit{
   }
   public getAvgTemp(tempArray: any){
       let totalTemp = 0
-      tempArray.forEach((t) => {
-          totalTemp += t.temp;
+      tempArray.forEach((t: any) => {
+          totalTemp += t.temp ? t.temp : 0;
       });
 
       console.log('totalTemp',totalTemp);
       const avgTemp = (totalTemp / tempArray.length).toFixed(2);
       console.log('avgTemp',avgTemp);
       this.averageTemp = Number(avgTemp);
+      this.atD = this.averageTemp;
   }
   public getWindDataArray(data: any){
     const arr = [];
@@ -310,22 +331,35 @@ export class AppComponent implements OnInit{
     });
 
     console.log('arrWind',arr);
-    this.getAvgTemp(arr);
+    this.getAvgWindSpeed(arr);
 
   }
-  public getAvgWindSpeed(windArray: any){
+  public getAvgWindSpeed(windArray: any): void{
       let totalWindSpeed = 0
-      windArray.forEach((t: any) => {
-          totalWindSpeed += t.speed;
+      windArray.forEach((w: any) => {
+          totalWindSpeed += w.speed ? w.speed : 0;
       });
 
       console.log('totalWindSpeed',totalWindSpeed);
       const avgWs = (totalWindSpeed / windArray.length).toFixed(2);
       console.log('avgWindSpeed',avgWs);
       this.averageWindSpeed = Number(avgWs);
+      this.vc = this.averageWindSpeed;
   }
   public onMcSourceChange($event: string): void{
      console.log('onMcSource',$event);
+     switch($event){
+      case 'manual':
+        this.miwb = 0;
+        this.miwb = 0;
+        this.readOnlyMode = false;
+        break;
+      case 'system':
+        this.setFilterDatafromCropData(this.selectedCropData);
+        this.readOnlyMode = true;
+        break;
+
+     }
   }
   public ondryerSizeChange($event): void{
     console.log('ondryerSizeChange',$event);
@@ -334,17 +368,18 @@ export class AppComponent implements OnInit{
   public ondryerTypeChange($event: string): void{
     console.log('ondryerTypeChange',$event);
     this.setDrierImage();
+    this.setDocTitle();
   }
   public setDrierImage(){
-      if(this.drierSize === 'smallDrier'){
+      if(this.drierSize === 'Small Drier'){
 
-        if(this.drierType === 'imoproved'){
+        if(this.drierType === 'improved'){
              this.selectedDrierImg = this.smallImprovedDrierImg;
         }else{
           this.selectedDrierImg = this.smallSimpleDrierImg;
         }
 
-      }else if(this.drierSize === 'largeDrier'){
+      }else if(this.drierSize === 'Large Drier'){
           if(this.drierType === 'improved'){
                 this.selectedDrierImg = this.largeImprovedDrierImg;
           }else{
@@ -354,6 +389,68 @@ export class AppComponent implements OnInit{
       }else{
         this.selectedDrierImg = this.largeSimpleDrierImg;
       }
+  }
+  public setDocTitle(){
+    if(this.drierSize === 'Small Drier'){
+
+      if(this.drierType === 'improved'){
+           this.docTitle = 'Small Improved Drier';
+      }else{
+           this.docTitle = 'Small Simple Drier';
+      }
+
+    }else if(this.drierSize === 'Large Drier'){
+        if(this.drierType === 'improved'){
+          this.docTitle = 'Large Improved Drier';
+        }else{
+          this.docTitle = 'Large Simple Drier';
+        }
+
+    }else{
+      this.docTitle = 'Drier';
+    }
+
+  }
+
+  public getCrops(){
+     this.crops = this.cropService.getAllCropData();
+     console.log('crops', this.crops);
+     const cropOptions = Object.entries(this.crops).map(([key, value])=> {
+        return {
+          label: key,
+          value: key
+        }
+     });
+     console.log('cropOptions', cropOptions);
+     this.cropOptions = cropOptions;
+  }
+  public onCropChange($event){
+    console.log('cropChange',$event);
+    const cropData = this.getCropData($event);
+    this.selectedCropData = cropData;
+    this.setFilterDatafromCropData(this.selectedCropData);
+    this.calculateMm();
+  }
+  public getCropData(crop: string): any{
+     const cropData: Crop = this.cropService.getCropData(crop);
+     console.log('Specific Crop Data', cropData);
+     return cropData;
+  }
+  public setFilterDatafromCropData(cropData: any): void{
+       if(cropData.initialMc){
+         this.miwb = cropData.initialMc;
+       }
+       if(cropData.finalMc){
+         this.mfwb = cropData.finalMc;
+       }
+  }
+  private determineDrierSize(productMass: number): void{
+      if(productMass > 100){
+        this.drierSize = 'Large Drier';
+      }else {
+        this.drierSize = 'Small Drier'
+      }
+
   }
 
 }

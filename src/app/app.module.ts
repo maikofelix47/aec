@@ -4,7 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { ForecastService } from './services/forecast.service';
+import { DrierDocService } from './drier-doc.service';
+import { CropService } from './crop.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,7 @@ import { ForecastService } from './services/forecast.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ForecastService],
+  providers: [ForecastService,DrierDocService,CropService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
