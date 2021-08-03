@@ -233,11 +233,32 @@ export class AppComponent implements OnInit{
      if(this.drierSize === 'Small Drier'){
 
       if(this.drierType === 'improved'){
-           docDefinition = this.drierDocService.generateLargeSimpleDrierDoc(this.docTitle,this.ca,this.nc,imageUrl,[]);
+        const drierImgUrl= this.baseImgUrl + 'small_improved_drier_example.jpg';
+        const smallImprovedDrierVar = this.baseImgUrl + 'small_improved_drier_variation.jpg';
+        console.log('drierImgurl', drierImgUrl);
+        console.log('smallImprovedDrierVar', smallImprovedDrierVar);
+        Promise.all([this.getBase64ImageFromURL(imageUrl),
+          this.getBase64ImageFromURL(drierImgUrl),
+          this.getBase64ImageFromURL(smallImprovedDrierVar)]).then((images) => {
+          console.log('smallImprovedDrierImgs', images);
+          const smallSimpleDrierImgs = images;
+          docDefinition = this.drierDocService.generaSmallImprovedDrierDoc(this.docTitle,this.ca,this.nc,smallSimpleDrierImgs);
+          resolve(docDefinition);
+        });
       }else{
-           docDefinition = this.drierDocService.generateLargeSimpleDrierDoc(this.docTitle,this.ca,this.nc,imageUrl,[]);
+          const drierImgUrl= this.baseImgUrl + 'small_simple_drier_example.png';
+          const smallSimpleDrierVar = this.baseImgUrl + 'small_simple_drier_variation.jpg';
+          console.log('drierImgurl', drierImgUrl);
+          console.log('smallSimpleDrierVar', smallSimpleDrierVar);
+          Promise.all([this.getBase64ImageFromURL(imageUrl),
+            this.getBase64ImageFromURL(drierImgUrl),
+            this.getBase64ImageFromURL(smallSimpleDrierVar)]).then((images) => {
+            console.log('smallSimpleDrierImgs', images);
+            const smallSimpleDrierImgs = images;
+            docDefinition = this.drierDocService.generaSmallSimpleDrierDoc(this.docTitle,this.ca,this.nc,smallSimpleDrierImgs);
+            resolve(docDefinition);
+          });
       }
-      resolve(docDefinition);
 
     }else if(this.drierSize === 'Large Drier'){
         if(this.drierType === 'improved'){
@@ -323,6 +344,7 @@ export class AppComponent implements OnInit{
       console.log('avgTemp',avgTemp);
       this.averageTemp = Number(avgTemp);
       this.atD = this.averageTemp;
+      this.onAtDChange(this.atD);
   }
   public getWindDataArray(data: any){
     const arr = [];
